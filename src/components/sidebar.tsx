@@ -16,7 +16,15 @@ export default function Sidebar() {
   const activeClass = "bg-blue-200";
 
   return (
-    <div className="w-[200px]">
+    <aside className="fixed z-10 h-full w-[200px] px-2 bg-background">
+      <Link href="/albums">
+        <img
+          src="/assets/geekup-logo.svg"
+          alt="Web logo"
+          className="pl-2 py-6"
+          style={{ width: '70%', height: 'auto', objectFit: 'contain' }}
+        />
+      </Link>
       <Link
         href="/albums"
         className={`flex items-center w-full px-6 py-2 ${
@@ -33,6 +41,6 @@ export default function Sidebar() {
         <FaUsersRectangle className="mr-4" />
         <p>Users</p>
       </Link>
-    </div>
+    </aside>
   );
 };
