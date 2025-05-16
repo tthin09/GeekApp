@@ -17,7 +17,7 @@ export default function Home() {
   const pageSize = searchParams.get("pageSize") ? parseInt(searchParams.get("pageSize")!, 10) : 20;
 
   useEffect(() => {
-    const fetchAlbums = async () => {
+    const fetchUsers = async () => {
       try {
         const response = await fetch('/api/user/get-all', {
           method: "GET",
@@ -42,12 +42,12 @@ export default function Home() {
       }
     };
 
-    fetchAlbums();
+    fetchUsers();
   }, []);
 
   return (
     <div className="w-full h-fit bg-gray-100 py-[1px]">
-      <h1 className="font-bold text-xl mx-6 mt-6">Albums</h1>
+      <h1 className="font-bold text-xl mx-6 mt-6">Users</h1>
       <div className="font-normal m-6 flex flex-col">
         {isLoading ? (
           <ClipLoader loading={isLoading} />
