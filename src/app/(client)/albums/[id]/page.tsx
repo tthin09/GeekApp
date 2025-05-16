@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Album } from "@/lib/types";
 import { ClipLoader } from "react-spinners";
-import Table from "./table";
 import { useRouter, useSearchParams } from "next/navigation";
 
 
@@ -49,14 +48,6 @@ export default function Home() {
     <div className="w-full h-fit bg-gray-100 py-[1px]">
       <h1 className="font-bold text-xl mx-6 mt-6">Albums</h1>
       <div className="font-normal m-6 flex flex-col">
-        {isLoading ? (
-          <ClipLoader loading={isLoading} />
-        ) : (
-          <Table
-            albums={albums}
-            currentPage={currentPage}
-            pageSize={pageSize}/>
-        )}
         
       </div>
     </div>

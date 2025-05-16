@@ -10,7 +10,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const isActive = (path: string) => {
-    return pathname === path;
+    return pathname.substring(0, path.length) === path;
   };
 
   const activeClass = "bg-blue-200";
