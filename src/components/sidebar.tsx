@@ -8,8 +8,6 @@ import { useState } from "react";
 import { TfiMenuAlt } from "react-icons/tfi";
 
 
-
-
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();

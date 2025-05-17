@@ -68,7 +68,7 @@ const Table: React.FC<TableProps> = (props) => {
                 </a>
               </td>
               <td className="p-4">
-                <div className="border-solid border-1 border-gray-300 rounded">
+                <div className="w-fit border-solid border-1 border-gray-300 rounded">
                   <Link href={`/users/${item.id}`} className="flex items-center py-1 px-2 hover:bg-gray-100">
                     <FaRegEye className="inline mr-2" />
                     Show
