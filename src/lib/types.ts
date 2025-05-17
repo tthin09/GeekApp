@@ -12,3 +12,10 @@ export interface User {
   phone: string;
   website: string;
 }
+
+export interface Photo {
+  albumId: string;
+  id: string;
+  title: string;
+  url: string;
+}

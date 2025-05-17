@@ -51,9 +51,22 @@ const Table: React.FC<TableProps> = (props) => {
                 />
               </td>
               <td className="p-4">{item.name}</td>
-              <td className="p-4">{item.email}</td>
-              <td className="p-4">{item.phone}</td>
-              <td className="p-4">{item.website}</td>
+              <td className="p-4">
+                <a href={`mailto:${item.email}`} className="text-blue-600 hover:text-blue-400 transition-colors duration-200">{item.email}</a>
+              </td>
+              <td className="p-4">
+                <a href={`tel:${item.phone}`} className="text-blue-600 hover:text-blue-400 transition-colors duration-200">{item.phone}</a>
+              </td>
+              <td className="p-4">
+                <a
+                  href={`https://${item.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-400 transition-colors duration-200"
+                >
+                  {item.website}
+                </a>
+              </td>
               <td className="p-4">
                 <div className="border-solid border-1 border-gray-300 rounded">
                   <Link href={`/users/${item.id}`} className="flex items-center py-1 px-2 hover:bg-gray-100">

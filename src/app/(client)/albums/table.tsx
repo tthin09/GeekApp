@@ -1,7 +1,8 @@
 import { FaRegEye } from "react-icons/fa";
 import Link from "next/link";
 import { Album } from "@/lib/types";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { hashStringToColor } from "@/lib/utils";
 import { HiChevronLeft, HiChevronRight, HiChevronDoubleLeft, HiChevronDoubleRight, HiDotsHorizontal } from "react-icons/hi";
 import PageButton from "@/components/navigate/button"
@@ -14,6 +15,7 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = (props) => {
+  const router = useRouter();
   const pathname = "/albums";
   const albums = props.albums;
   const currentPage = props.currentPage;
@@ -22,6 +24,27 @@ const Table: React.FC<TableProps> = (props) => {
 
   const albumStartIdx = (currentPage - 1)*pageSize;
   const albumEndIdx = albumStartIdx + pageSize;
+
+  const redirectToValidPage = (pageSize: number, currentPage: number) => {
+    const params = new URLSearchParams();
+    params.set("pageSize", pageSize.toString());
+    params.set("current", currentPage.toString());
+    router.push(`/albums?${params.toString()}`);
+  }
+
+  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPageSize = parseInt(event.target.value);
+
+    redirectToValidPage(newPageSize, currentPage);
+  }
+
+  useEffect(() => {
+    if (currentPage > pageCount) {
+      redirectToValidPage(pageSize, pageCount);
+    } else if (currentPage < 1) {
+      redirectToValidPage(pageSize, 1)
+    }
+  })
 
   return (
     <>
@@ -37,11 +60,11 @@ const Table: React.FC<TableProps> = (props) => {
       <tbody>
         {albums.slice(albumStartIdx, albumEndIdx).map((item, index) => {
           return (
-            <tr key={index} className="text-left font-normal border-b-1 border-gray-200 py-2 hover:bg-gray-50">
+            <tr key={index} className="text-left font-normal border-b-1 border-gray-200 py-2 hover:bg-gray-50 transition-colors duration-200">
               <td className="p-4">{item.id}</td>
               <td className="p-4">{item.title}</td>
               <td className="p-4">
-                <Link href={`/users/${item.id}`} className="text-blue-600 hover:text-blue-400">
+                <Link href={`/users/${item.id}`} className="text-blue-600 hover:text-blue-400 transition-colors duration-200">
                   <img
                     src={`https://ui-avatars.com/api/?name=${item.username}&background=${hashStringToColor(item.username)}`}
                     alt={`${item.username}_avatar`}
@@ -52,8 +75,8 @@ const Table: React.FC<TableProps> = (props) => {
                 </Link>
               </td>
               <td className="p-4">
-                <div className="border-solid border-1 border-gray-300 rounded">
-                  <Link href={`/albums/${item.id}`} className="flex items-center py-1 px-2 hover:bg-gray-100">
+                <div className="w-fit border-solid border-1 border-gray-300 rounded">
+                  <Link href={`/albums/${item.id}`} className="flex items-center py-1 px-2 hover:bg-gray-100 transition-colors duration-200">
                     <FaRegEye className="inline mr-2" />
                     Show
                   </Link>
@@ -74,7 +97,7 @@ const Table: React.FC<TableProps> = (props) => {
           query: { current: 1, pageSize: pageSize }
         }}
       >
-        <div className={`flex justify-center items-center w-10 h-10 rounded hover:bg-gray-300`}>
+        <div className={`flex justify-center items-center w-10 h-10 rounded hover:bg-gray-300 transition-colors duration-200`}>
           <HiChevronDoubleLeft />
         </div>
       </Link>
@@ -92,7 +115,7 @@ const Table: React.FC<TableProps> = (props) => {
         }}
       >
         <div className={`flex justify-center items-center w-10 h-10 rounded ${
-          currentPage === 1 ? "cursor-not-allowed" : "hover:bg-gray-300"
+          currentPage === 1 ? "cursor-not-allowed" : "hover:bg-gray-300 transition-colors duration-200"
         }`}>
           <HiChevronLeft />
         </div>
@@ -140,7 +163,7 @@ const Table: React.FC<TableProps> = (props) => {
         }}
       >
         <div className={`flex justify-center items-center w-10 h-10 rounded ${
-          currentPage === pageCount ? "cursor-not-allowed" : "hover:bg-gray-300"
+          currentPage === pageCount ? "cursor-not-allowed" : "hover:bg-gray-300 transition-colors duration-200"
         }`}>
           <HiChevronRight />
         </div>
@@ -152,10 +175,25 @@ const Table: React.FC<TableProps> = (props) => {
           query: { current: pageCount, pageSize: pageSize }
         }}
       >
-        <div className={`flex justify-center items-center w-10 h-10 rounded hover:bg-gray-300`}>
+        <div className={`flex justify-center items-center w-10 h-10 rounded hover:bg-gray-300 transition-colors duration-200`}>
           <HiChevronDoubleRight />
         </div>
       </Link>
+    </div>
+
+    {/* Change album per page section */}
+    <div className="flex w-full justify-end mt-3">
+      <select
+        id="selectItemsPerPage"
+        value={pageSize}
+        onChange={handlePageSizeChange}
+        className="border-1 border-gray-200 rounded px-3 py-2 hover:border-blue-600 transition-colors duration-200"
+      >
+        <option value={10}>10 / page</option>
+        <option value={20}>20 / page</option>
+        <option value={50}>50 / page</option>
+        <option value={100}>100 / page</option>
+      </select>
     </div>
     </>
   );
