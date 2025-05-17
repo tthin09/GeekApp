@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Album } from "@/lib/types";
 import { ClipLoader } from "react-spinners";
 import Table from "./table";
 import { useRouter, useSearchParams } from "next/navigation";
 
-
-export default function Home() {
+function Component() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -46,18 +45,29 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+      {isLoading ? (
+        <ClipLoader loading={isLoading} />
+      ) : (
+        <Table
+          albums={albums}
+          currentPage={currentPage}
+          pageSize={pageSize}/>
+      )}
+    </>
+  )
+}
+
+export default function Home() {
+  
+
+  return (
     <div className="w-full h-fit bg-gray-100 py-[1px]">
       <h1 className="font-bold text-xl mx-6 mt-6">Albums</h1>
       <div className="font-normal m-6 flex flex-col">
-        {isLoading ? (
-          <ClipLoader loading={isLoading} />
-        ) : (
-          <Table
-            albums={albums}
-            currentPage={currentPage}
-            pageSize={pageSize}/>
-        )}
-        
+        <Suspense fallback={<ClipLoader />}>
+          <Component />
+        </Suspense>
       </div>
     </div>
   );
