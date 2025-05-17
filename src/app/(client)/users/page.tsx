@@ -4,13 +4,12 @@ import { useState, useEffect } from "react";
 import { User } from "@/lib/types";
 import { ClipLoader } from "react-spinners";
 import Table from "./table";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentPage = searchParams.get("current") ? parseInt(searchParams.get("current")!, 10) : 1;

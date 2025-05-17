@@ -8,24 +8,15 @@ import { HiArrowLeft } from "react-icons/hi";
 import { hashStringToColor } from "@/lib/utils";
 import Link from "next/link";
 import Table from "./table";
+import { ClipLoader } from "react-spinners";
 
-const DefaultUser: User = {
-  id: "0",
-  name: "unknown",
-  email: "unknown",
-  phone: "unknown",
-  website: "unknown",
-}
 
 export default function Home() {
-  const [user, setUser] = useState<User>(DefaultUser);
+  const [user, setUser] = useState<User>();
   const [albums, setAlbums] = useState<Album[]>([]);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { id } = useParams();
 
-  const currentPage = searchParams.get("current") ? parseInt(searchParams.get("current")!, 10) : 1;
-  const pageSize = searchParams.get("pageSize") ? parseInt(searchParams.get("pageSize")!, 10) : 20;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -102,23 +93,32 @@ export default function Home() {
       <div className="font-normal m-6 flex flex-col bg-white p-6 rounded">
         <div className="border-1 border-gray-200 rounded p-6">
           {/* User info */}
-          <div className="flex w-full border-b-1 border-gray-200 mb-8">
-            <img
-              src={`https://ui-avatars.com/api/?name=${user.name}&background=${hashStringToColor(user.name)}`}
-              alt={`${user.name}_avatar`}
-              className="mr-4"
-              style={{ height: "40px", width: "auto", borderRadius: "100%", display: "inline" }}
-            />
-            <div className="flex flex-col">
-              <h2 className="font-bold text-xl mb-4">{user.name}</h2>
-              <a href={`mailto:${user.email}`} className="text-blue-600 hover:text-blue-400 transition-colors duration-200 mb-4">{user.email}</a>
+
+          { !user ? (
+            <ClipLoader />
+          ) : ( 
+            <div className="flex w-full border-b-1 border-gray-200 mb-8">
+              <img
+                src={`https://ui-avatars.com/api/?name=${user.name}&background=${hashStringToColor(user.name)}`}
+                alt={`${user.name}_avatar`}
+                className="mr-4"
+                style={{ height: "40px", width: "auto", borderRadius: "100%", display: "inline" }}
+              />
+              <div className="flex flex-col">
+                <h2 className="font-bold text-xl mb-4">{user.name}</h2>
+                <a href={`mailto:${user.email}`} className="text-blue-600 hover:text-blue-400 transition-colors duration-200 mb-4">{user.email}</a>
+              </div>
             </div>
-          </div>
+          )}
           {/* Table */}
-          <h2 className="text-xl font-bold my-4">Albums</h2>
-          <Table 
-            albums={albums}
-          />
+          { user && (
+            <>
+              <h2 className="text-xl font-bold my-4">Albums</h2>
+              <Table 
+                albums={albums}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

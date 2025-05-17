@@ -29,10 +29,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
         <Sidebar />
-        <div className="grow">
+        <div className="flex-1 grow">
           <nav className="fixed w-full h-[64px] bg-background">
           </nav>
-          <div className="ml-[200px] mt-[64px]">
+          <div className="max-xl:ml-[0px] ml-[200px] mt-[64px] transition-all duration-300">
             {children}
           </div>
         </div>

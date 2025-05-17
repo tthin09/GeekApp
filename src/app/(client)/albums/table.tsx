@@ -27,8 +27,8 @@ const Table: React.FC<TableProps> = (props) => {
 
   const redirectToValidPage = (pageSize: number, currentPage: number) => {
     const params = new URLSearchParams();
-    params.set("pageSize", pageSize.toString());
     params.set("current", currentPage.toString());
+    params.set("pageSize", pageSize.toString());
     router.push(`/albums?${params.toString()}`);
   }
 

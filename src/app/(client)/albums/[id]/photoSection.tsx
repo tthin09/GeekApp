@@ -18,17 +18,21 @@ const PhotoSection: React.FC<TableProps> = (props) => {
     setPreviewUrl(null);
   }
 
+  const getValidUrl = (url: string) => {
+    return url.replace("https://via.placeholder.com", "https://dummyjson.com/image");
+  }
+
   return (
     <>
-      <div className="flex flex-wrap gap-x-4">
+      <div className="flex flex-wrap gap-x-4 gap-y-4">
         {photos.map((item, index) => {
           return (
             <div key={index} className="aspect-square">
               <img 
-                src={item.url}
+                src={getValidUrl(item.url)}
                 alt={item.title}
                 className="w-[150px] object-cover"
-                onClick={() => openPreview(item.url)}
+                onClick={() => openPreview(getValidUrl(item.url))}
               />
             </div>
           );
@@ -37,7 +41,7 @@ const PhotoSection: React.FC<TableProps> = (props) => {
 
       {/* If clicked preview => Go preview mode */}
       {previewUrl && (
-        <div onClick={closePreview} className="fixed inset-0 bg-black opacity-80 flex justify-center items-center z-10">
+        <div onClick={closePreview} className="fixed inset-0 bg-black/80 flex justify-center items-center z-10">
           <img
             src={previewUrl}
             alt="Preview"
