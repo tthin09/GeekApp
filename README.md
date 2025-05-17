@@ -14,3 +14,6 @@ After you have built it, run "npm start" to start the app.
 npm start
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+# Tech stack
+The project is build using NextJS framework with TypeScript. I didn't use any UI Library except of "react-icons" library.
